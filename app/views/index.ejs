@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bếp Nhà Huy | Công thức nấu ăn</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/">Bếp Nhà Huy</a>
+    <span>Công thức ngon cho mỗi ngày</span>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">CÙNG VÀO BẾP</p>
+      <h1>Hôm nay mình nấu gì?</h1>
+      <p>Khám phá món ngon, chuẩn bị nguyên liệu và làm theo từng bước.</p>
+    </section>
+
+    <form class="filters" method="GET" action="/">
+      <div>
+        <label for="q">Tên món hoặc nguyên liệu</label>
+        <input id="q" name="q" maxlength="100"
+               placeholder="Ví dụ: gà, bí đỏ..."
+               value="<%= q %>">
+      </div>
+
+      <div>
+        <label for="category">Danh mục</label>
+        <select id="category" name="category">
+          <option value="">Tất cả danh mục</option>
+          <% categories.forEach(item => { %>
+            <option value="<%= item.id %>"
+              <%= String(item.id) === category ? 'selected' : '' %>>
+              <%= item.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <button type="submit">Tìm công thức</button>
+      <a href="/">Đặt lại</a>
+    </form>
+
+    <div class="section-heading">
+      <h2>Công thức dành cho bạn</h2>
+      <span><%= recipes.length %> kết quả</span>
+    </div>
+
+    <% if (!recipes.length) { %>
+      <div class="empty">
+        Không tìm thấy công thức phù hợp. Hãy thử từ khóa khác.
+      </div>
+    <% } %>
+
+    <section class="grid">
+      <% recipes.forEach(recipe => { %>
+        <article class="card">
+          <span class="badge"><%= recipe.category_name %></span>
+          <h2>
+            <a href="/recipes/<%= recipe.id %>"><%= recipe.title %></a>
+          </h2>
+          <p><%= recipe.description %></p>
+          <div class="meta">
+            <span><%= recipe.cooking_minutes %> phút</span>
+            <span><%= recipe.servings %> khẩu phần</span>
+          </div>
+          <a class="recipe-link" href="/recipes/<%= recipe.id %>">
+            Xem cách nấu →
+          </a>
+        </article>
+      <% }) %>
+    </section>
+  </main>
+
+  <footer>Đề 29 · Ứng dụng công thức nấu ăn · Huy</footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= recipe.title %> | Bếp Nhà Huy</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/">Bếp Nhà Huy</a>
+    <a href="/">Về trang chủ</a>
+  </header>
+
+  <main class="container detail">
+    <a class="back-link" href="/">← Danh sách công thức</a>
+
+    <section class="hero">
+      <span class="badge"><%= recipe.category_name %></span>
+      <h1><%= recipe.title %></h1>
+      <p><%= recipe.description %></p>
+      <div class="meta">
+        <span>Thời gian: <%= recipe.cooking_minutes %> phút</span>
+        <span>Khẩu phần: <%= recipe.servings %> người</span>
+      </div>
+    </section>
+
+    <div class="detail-grid">
+      <section class="panel">
+        <h2>Nguyên liệu</h2>
+        <ul class="ingredients">
+          <% recipe.ingredients.split(/\r?\n/).filter(line => line.trim()).forEach(line => { %>
+            <li><%= line %></li>
+          <% }) %>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Cách thực hiện</h2>
+        <ol class="steps">
+          <% recipe.instructions.split(/\r?\n/).filter(line => line.trim()).forEach(line => { %>
+            <li><%= line.replace(/^\s*\d+[.)]\s*/, '') %></li>
+          <% }) %>
+        </ol>
+      </section>
+    </div>
+  </main>
+
+  <footer>Chúc bạn thực hiện thành công và có bữa ăn ngon!</footer>
+</body>
+</html>

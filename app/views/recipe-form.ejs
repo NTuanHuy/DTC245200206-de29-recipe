@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= pageTitle %> | Bếp Nhà Huy</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/">Bếp Nhà Huy</a>
+    <a href="/admin">Về quản trị</a>
+  </header>
+
+  <main class="container">
+    <section class="panel recipe-form-panel">
+      <p class="eyebrow">QUẢN LÝ CÔNG THỨC</p>
+      <h1><%= pageTitle %></h1>
+
+      <% if (errors.length) { %>
+        <div class="alert-error" role="alert">
+          <strong>Vui lòng kiểm tra lại:</strong>
+          <ul>
+            <% errors.forEach(error => { %>
+              <li><%= error %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <form method="POST" action="<%= action %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="form-field">
+          <label for="title">Tên món ăn</label>
+          <input id="title" name="title" maxlength="200"
+                 value="<%= recipe.title %>" required>
+        </div>
+
+        <div class="form-field">
+          <label for="category_id">Danh mục</label>
+          <select id="category_id" name="category_id" required>
+            <option value="">-- Chọn danh mục --</option>
+            <% categories.forEach(category => { %>
+              <option value="<%= category.id %>"
+                <%= String(category.id) === String(recipe.category_id) ? 'selected' : '' %>>
+                <%= category.name %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="description">Mô tả món ăn</label>
+          <textarea id="description" name="description"
+                    rows="3" maxlength="5000"
+                    required><%= recipe.description %></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="ingredients">Nguyên liệu</label>
+          <p class="field-hint" id="ingredients-hint">
+            Mỗi nguyên liệu một dòng, ghi kèm số lượng.
+          </p>
+          <textarea id="ingredients" name="ingredients"
+                    rows="7" maxlength="5000"
+                    aria-describedby="ingredients-hint"
+                    required><%= recipe.ingredients %></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="instructions">Cách thực hiện</label>
+          <p class="field-hint" id="instructions-hint">
+            Mỗi bước một dòng, hệ thống tự đánh số khi hiển thị.
+          </p>
+          <textarea id="instructions" name="instructions"
+                    rows="8" maxlength="5000"
+                    aria-describedby="instructions-hint"
+                    required><%= recipe.instructions %></textarea>
+        </div>
+
+        <div class="form-columns">
+          <div class="form-field">
+            <label for="cooking_minutes">Thời gian nấu (phút)</label>
+            <input id="cooking_minutes" name="cooking_minutes"
+                   type="number" min="1" max="1440" step="1"
+                   value="<%= recipe.cooking_minutes %>" required>
+          </div>
+
+          <div class="form-field">
+            <label for="servings">Khẩu phần (người)</label>
+            <input id="servings" name="servings"
+                   type="number" min="1" max="100" step="1"
+                   value="<%= recipe.servings %>" required>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button type="submit">Lưu công thức</button>
+          <a href="/admin">Hủy và quay lại</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>Đề 29 · Quản trị công thức nấu ăn · Huy</footer>
+</body>
+</html>

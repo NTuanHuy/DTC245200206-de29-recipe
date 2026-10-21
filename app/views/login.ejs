@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập quản trị | Bếp Nhà Huy</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/">Bếp Nhà Huy</a>
+    <a href="/">Về trang chủ</a>
+  </header>
+
+  <main class="container">
+    <section class="panel login-panel">
+      <p class="eyebrow">KHU VỰC QUẢN TRỊ</p>
+      <h1>Đăng nhập</h1>
+      <p>Quản lý công thức và danh mục món ăn.</p>
+
+      <% if (error) { %>
+        <div class="alert-error" role="alert"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/admin/login">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="form-field">
+          <label for="username">Tên đăng nhập</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            maxlength="50"
+            autocomplete="username"
+            required>
+        </div>
+
+        <div class="form-field">
+          <label for="password">Mật khẩu</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required>
+        </div>
+
+        <button class="full-width" type="submit">Đăng nhập</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>Đề 29 · Ứng dụng công thức nấu ăn · Huy</footer>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản lý danh mục | Bếp Nhà Huy</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/">Bếp Nhà Huy</a>
+    <a href="/admin">Về quản trị</a>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">KHU VỰC QUẢN TRỊ</p>
+      <h1>Quản lý danh mục</h1>
+      <p>Thêm danh mục, đổi tên và quản lý nhóm món ăn.</p>
+    </section>
+
+    <% if (error) { %>
+      <div class="alert-error" role="alert"><%= error %></div>
+    <% } %>
+
+    <section class="panel">
+      <h2>Thêm danh mục</h2>
+      <form method="POST" action="/admin/categories">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="form-field">
+          <label for="new-category">Tên danh mục</label>
+          <input id="new-category" name="name" maxlength="100" required>
+        </div>
+        <button type="submit">Thêm danh mục</button>
+      </form>
+    </section>
+
+    <div class="section-heading category-heading">
+      <h2>Danh mục hiện có</h2>
+      <span><%= categories.length %> danh mục</span>
+    </div>
+
+    <section class="grid">
+      <% categories.forEach(category => { %>
+        <article class="card">
+          <h2><%= category.name %></h2>
+          <p><%= category.recipe_count %> công thức</p>
+
+          <form method="POST"
+                action="/admin/categories/<%= category.id %>/edit">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="form-field">
+              <label for="category-<%= category.id %>">Đổi tên danh mục</label>
+              <input id="category-<%= category.id %>" name="name"
+                     maxlength="100" value="<%= category.name %>" required>
+            </div>
+            <button type="submit">Lưu tên</button>
+          </form>
+
+          <% if (Number(category.recipe_count) === 0) { %>
+            <details class="delete-category">
+              <summary class="danger-link">Xóa danh mục</summary>
+              <p>Xác nhận xóa danh mục “<%= category.name %>”?</p>
+              <form method="POST"
+                    action="/admin/categories/<%= category.id %>/delete">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="danger-button" type="submit">
+                  Xác nhận xóa
+                </button>
+              </form>
+            </details>
+          <% } else { %>
+            <p class="field-hint category-heading">
+              Chuyển các công thức sang danh mục khác trước khi xóa.
+            </p>
+          <% } %>
+        </article>
+      <% }) %>
+    </section>
+
+    <p><a href="/admin">← Quay về quản lý công thức</a></p>
+  </main>
+
+  <footer>Đề 29 · Quản trị công thức nấu ăn · Huy</footer>
+</body>
+</html>

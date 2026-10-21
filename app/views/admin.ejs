@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản trị | Bếp Nhà Huy</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/">Bếp Nhà Huy</a>
+    <div class="admin-nav">
+      <span>Xin chào, <%= currentUser.username %></span>
+      <form method="POST" action="/admin/logout">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit">Đăng xuất</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">KHU VỰC QUẢN TRỊ</p>
+      <h1>Quản lý công thức</h1>
+      <p>Hiện có <%= recipes.length %> công thức trong cơ sở dữ liệu.</p>
+    </section>
+
+    <div class="toolbar">
+      <a class="button-link" href="/admin/recipes/new">+ Thêm công thức</a>
+      <a href="/admin/categories">Quản lý danh mục</a>
+      <a href="/">Xem website</a>
+    </div>
+
+    <% if (!recipes.length) { %>
+      <div class="empty">Chưa có công thức. Hãy thêm món đầu tiên.</div>
+    <% } else { %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Tên món</th>
+              <th scope="col">Danh mục</th>
+              <th scope="col">Thời gian</th>
+              <th scope="col">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recipes.forEach(recipe => { %>
+              <tr>
+                <td><%= recipe.id %></td>
+                <td>
+                  <a href="/recipes/<%= recipe.id %>"><%= recipe.title %></a>
+                </td>
+                <td><%= recipe.category_name %></td>
+                <td><%= recipe.cooking_minutes %> phút</td>
+                <td>
+                  <div class="row-actions">
+                    <a href="/admin/recipes/<%= recipe.id %>/edit">Sửa</a>
+                    <a class="danger-link"
+                       href="/admin/recipes/<%= recipe.id %>/delete">
+                      Xóa
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </main>
+
+  <footer>Đề 29 · Quản trị công thức nấu ăn · Huy</footer>
+</body>
+</html>

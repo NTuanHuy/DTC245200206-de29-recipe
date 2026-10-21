@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Xác nhận xóa | Bếp Nhà Huy</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/">Bếp Nhà Huy</a>
+    <a href="/admin">Về quản trị</a>
+  </header>
+
+  <main class="container">
+    <section class="panel login-panel">
+      <p class="eyebrow">QUẢN LÝ CÔNG THỨC</p>
+      <h1>Xác nhận xóa</h1>
+
+      <p>Bạn muốn xóa công thức:</p>
+      <h2><%= recipe.title %></h2>
+
+      <div class="alert-error">
+        Công thức sẽ bị xóa khỏi cơ sở dữ liệu.
+        Thao tác này không thể hoàn tác trên giao diện.
+      </div>
+
+      <form method="POST" action="/admin/recipes/<%= recipe.id %>/delete">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="toolbar">
+          <button class="danger-button" type="submit">Xác nhận xóa</button>
+          <a href="/admin">Hủy và quay lại</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>Đề 29 · Quản trị công thức nấu ăn · Huy</footer>
+</body>
+</html>
